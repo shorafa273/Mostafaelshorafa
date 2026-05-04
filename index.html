@@ -1018,13 +1018,53 @@
   }
 
   /* ── Mobile ── */
-  @media (max-width: 640px) {
-    nav { padding: 1rem 1.25rem; }
-    .nav-links { gap: 1.25rem; }
-    .nav-links a { font-size: 0.6rem; letter-spacing: 0.1em; }
+ @media (max-width: 640px) {
 
-    section { padding: 4rem 1.25rem; }
-    #hero { padding: 0 1.25rem; min-height: 100svh; }
+  /* NAV */
+  nav {
+    padding: 1rem 1.25rem;
+  }
+
+  .nav-links {
+    gap: 1rem;
+  }
+
+  .nav-links a {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 2rem 1rem;
+  }
+
+  /* HERO */
+  #hero {
+    padding: 0 1.25rem;
+    min-height: 100vh;
+    min-height: 100svh;
+  }
+
+  /* FOOTER FIX (IMPORTANT PART) */
+  footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+    padding: 2rem 1rem;
+  }
+
+  footer > div {
+    width: 100%;
+  }
+
+  /* SAFETY FIX (prevents overflow issues) */
+  body {
+    overflow-x: hidden;
+  }
+}
 
     /* Mobile slider further tuned */
     .hero-slider {
