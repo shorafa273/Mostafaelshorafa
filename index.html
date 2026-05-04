@@ -1,0 +1,2061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mostafa El Shorafa — Senior Graphic & UI/UX Designer</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-dim: #7A6230;
+    --bg: #0A0A0A;
+    --bg2: #111111;
+    --bg3: #161616;
+    --surface: #1A1A1A;
+    --border: rgba(201,168,76,0.15);
+    --border-bright: rgba(201,168,76,0.4);
+    --text: #F0EDE6;
+    --text-muted: #7A7570;
+    --text-soft: #A8A39C;
+    --neon: #D4FF4A;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Space Grotesk', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Page Transitions */
+  body.page-view {
+    overflow: hidden;
+  }
+
+  .cursor {
+    position: fixed;
+    width: 8px; height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease, width 0.2s, height 0.2s;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 32px; height: 32px;
+    border: 1px solid rgba(201,168,76,0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: all 0.15s ease;
+  }
+  body:has(a:hover) .cursor { width: 12px; height: 12px; background: var(--neon); }
+  body:has(a:hover) .cursor-ring { width: 44px; height: 44px; border-color: var(--neon); }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.5rem 4rem;
+    border-bottom: 1px solid transparent;
+    transition: all 0.4s ease;
+  }
+  nav.scrolled {
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+    border-color: var(--border);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .nav-links { display: flex; gap: 3rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+    text-decoration: none;
+    transition: color 0.3s;
+    position: relative;
+    cursor: pointer;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--gold);
+    transition: width 0.3s ease;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover::after { width: 100%; }
+
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 0 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid-bg {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+    top: 50%; left: 60%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 820px; }
+  .hero-eyebrow {
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 2rem;
+    animation: eyebrowFade 0.8s ease-out 0.2s both;
+  }
+  @keyframes eyebrowFade {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  .hero-eyebrow-line { width: 40px; height: 1px; background: var(--gold); }
+  .hero-eyebrow span {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 8vw, 7.5rem);
+    font-weight: 900;
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+    animation: nameSlideIn 1s ease-out 0.4s both;
+  }
+  @keyframes nameSlideIn {
+    0% { opacity: 0; transform: translateX(-50px) skewX(15deg); }
+    100% { opacity: 1; transform: translateX(0) skewX(0deg); }
+  }
+  .hero-name em { font-style: italic; color: var(--gold); }
+  .hero-desc {
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    line-height: 1.8;
+    max-width: 460px;
+    margin-bottom: 3rem;
+    animation: descFade 0.8s ease-out 0.6s both;
+  }
+  @keyframes descFade {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-cta { display: flex; gap: 1.5rem; align-items: center; animation: ctaFade 0.8s ease-out 0.8s both; }
+  @keyframes ctaFade {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 0.75rem;
+    padding: 1rem 2rem;
+    background: var(--gold);
+    color: var(--bg);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 2px solid var(--gold);
+    cursor: pointer;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(201,168,76,0.3); }
+  .btn-ghost {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+    text-decoration: none;
+    display: flex; align-items: center; gap: 0.5rem;
+    transition: color 0.3s;
+    cursor: pointer;
+  }
+  .btn-ghost:hover { color: var(--gold); }
+  .hero-scroll {
+    position: absolute; bottom: 3rem; right: 4rem;
+    display: flex; flex-direction: column; align-items: center; gap: 0.75rem;
+    writing-mode: vertical-rl;
+  }
+  .hero-scroll span {
+    font-size: 0.6rem; 
+    font-weight: 700;
+    letter-spacing: 0.25em; 
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .hero-scroll-line {
+    width: 1px; height: 60px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollline 2s ease-in-out infinite;
+  }
+  @keyframes scrollline {
+    0%, 100% { transform: scaleY(1); opacity: 1; }
+    50% { transform: scaleY(0.5); opacity: 0.4; }
+  }
+  .hero-stats {
+    position: absolute; bottom: 3rem; left: 4rem;
+    display: flex; gap: 3rem;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; 
+    font-weight: 900;
+    color: var(--gold); 
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.6rem; 
+    font-weight: 700;
+    letter-spacing: 0.2em; 
+    text-transform: uppercase;
+    color: var(--text-muted); 
+    margin-top: 4px;
+  }
+
+  section { padding: 8rem 4rem; }
+  .section-header { margin-bottom: 5rem; }
+  .section-tag {
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .section-tag span {
+    font-size: 0.65rem; 
+    font-weight: 800;
+    letter-spacing: 0.3em; 
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .section-tag-line { flex: 1; height: 1px; background: var(--border); }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 900; 
+    line-height: 1.05;
+  }
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  #about { background: var(--bg2); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+  .about-img-frame {
+    width: 100%; aspect-ratio: 4/5;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .about-img-frame::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(201,168,76,0.05) 0%, transparent 50%);
+  }
+  .about-placeholder {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem; 
+    font-weight: 700;
+    font-style: italic;
+    color: var(--text-muted); 
+    letter-spacing: 0.1em;
+    text-align: center; 
+    padding: 2rem; 
+    line-height: 1.8;
+  }
+  .about-corner {
+    position: absolute;
+    width: 40px; height: 40px;
+    border-color: var(--gold); border-style: solid;
+  }
+  .about-corner.tl { top: -8px; left: -8px; border-width: 2px 0 0 2px; }
+  .about-corner.br { bottom: -8px; right: -8px; border-width: 0 2px 2px 0; }
+  .about-badge {
+    position: absolute; bottom: 2rem; right: -2rem;
+    background: var(--gold); color: var(--bg);
+    padding: 1.25rem;
+    font-size: 0.65rem; 
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase; 
+    text-align: center; 
+    line-height: 1.6;
+  }
+  .about-body {
+    font-size: 1.05rem; 
+    font-weight: 600;
+    line-height: 1.9;
+    color: var(--text-soft); 
+    margin-bottom: 1.5rem;
+  }
+  .about-skills {
+    display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2.5rem;
+  }
+  .skill-pill {
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--border-bright);
+    font-size: 0.65rem; 
+    font-weight: 700;
+    letter-spacing: 0.15em; 
+    text-transform: uppercase;
+    color: var(--gold); 
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .skill-pill:hover { background: var(--gold); color: var(--bg); }
+  .gold-divider { width: 40px; height: 2px; background: var(--gold); margin: 2rem 0; }
+
+  #projects { background: var(--bg); }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--border);
+  }
+  .project-card {
+    background: var(--surface);
+    aspect-ratio: 4/3;
+    position: relative; 
+    overflow: hidden; 
+    cursor: pointer;
+    transition: transform 0.4s ease;
+  }
+  .project-card:hover { transform: scale(0.98); }
+  .project-card.featured {
+    grid-column: span 1;
+    aspect-ratio: 4/3;
+  }
+  }
+  .project-card a { text-decoration: none; color: inherit; display: block; height: 100%; }
+  .project-bg {
+    position: absolute; inset: 0;
+    transition: transform 0.6s ease;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem; 
+    font-weight: 900;
+    color: rgba(255,255,255,0.025);
+    letter-spacing: 0.2em; 
+    overflow: hidden;
+  }
+  .project-card:hover .project-bg { transform: scale(1.05); }
+  .p1 .project-bg { background: linear-gradient(135deg, #0D1520 0%, #162030 100%); }
+  .p2 .project-bg { background: linear-gradient(135deg, #1A1206 0%, #2A1E08 100%); }
+  .p3 .project-bg { background: linear-gradient(135deg, #0D1A10 0%, #122018 100%); }
+  .p4 .project-bg { background: linear-gradient(135deg, #1A0D1A 0%, #240E28 100%); }
+  .p5 .project-bg { background: linear-gradient(135deg, #0D1520 0%, #162030 100%); }
+  .p6 .project-bg { background: linear-gradient(135deg, #1A0606 0%, #2A1208 100%); }
+  .p7 .project-bg { background: linear-gradient(135deg, #0A0A1A 0%, #161632 100%); }
+  .p8 .project-bg { background: linear-gradient(135deg, #1A0D1A 0%, #240E28 100%); }
+  .p9 .project-bg { background: linear-gradient(135deg, #1A1206 0%, #2A1E08 100%); }
+  .p10 .project-bg { background: linear-gradient(135deg, #0D1A10 0%, #122018 100%); }
+
+  .project-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%);
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 2rem; opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .project-card:hover .project-overlay { opacity: 1; }
+  .project-info-static {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 2rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+  }
+  .project-category {
+    font-size: 0.6rem; 
+    font-weight: 800;
+    letter-spacing: 0.25em; 
+    text-transform: uppercase;
+    color: var(--gold); 
+    margin-bottom: 0.4rem;
+  }
+  .project-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem; 
+    font-weight: 800; 
+    line-height: 1.1;
+  }
+  .project-desc {
+    font-size: 0.8rem; 
+    font-weight: 600;
+    color: var(--text-soft);
+    line-height: 1.6; 
+    margin-top: 0.75rem;
+  }
+  .project-link {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    margin-top: 1.25rem;
+    font-size: 0.65rem; 
+    font-weight: 800;
+    letter-spacing: 0.2em; 
+    text-transform: uppercase;
+    color: var(--gold); 
+    text-decoration: none;
+  }
+  .project-num {
+    position: absolute; top: 1.5rem; right: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.85rem; 
+    font-weight: 900;
+    color: rgba(201,168,76,0.3);
+    letter-spacing: 0.1em;
+  }
+  .project-thumb {
+    position: absolute; inset: 0;
+    object-fit: cover; width: 100%; height: 100%;
+    opacity: 0.55; transition: opacity 0.4s, transform 0.6s;
+  }
+  .project-card:hover .project-thumb { opacity: 0.35; transform: scale(1.05); }
+
+  #services { background: var(--bg2); }
+  .services-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--border);
+  }
+  .service-card {
+    background: var(--bg2); padding: 3rem 2.5rem;
+    position: relative; transition: background 0.3s ease; overflow: hidden;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: var(--gold); transform: scaleX(0);
+    transform-origin: left; transition: transform 0.4s ease;
+  }
+  .service-card:hover { background: var(--surface); }
+  .service-card:hover::before { transform: scaleX(1); }
+  .service-icon { font-size: 1.5rem; margin-bottom: 2rem; color: var(--gold); opacity: 0.7; }
+  .service-num {
+    position: absolute; top: 2rem; right: 2rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem; 
+    font-weight: 900;
+    color: rgba(201,168,76,0.06); 
+    line-height: 1;
+  }
+  .service-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem; 
+    font-weight: 800;
+    margin-bottom: 1rem; 
+    line-height: 1.1;
+  }
+  .service-desc { 
+    font-size: 0.82rem; 
+    font-weight: 600;
+    color: var(--text-muted); 
+    line-height: 1.8; 
+  }
+  .service-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+  .service-tag {
+    font-size: 0.6rem; 
+    font-weight: 700;
+    letter-spacing: 0.12em; 
+    text-transform: uppercase;
+    color: var(--text-muted); 
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 0.25rem 0.6rem;
+  }
+
+  #contact { background: var(--bg3); }
+  .contact-inner { max-width: 700px; margin: 0 auto; text-align: center; }
+  .contact-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 6vw, 6rem);
+    font-weight: 900; 
+    line-height: 0.95; 
+    margin-bottom: 1.5rem;
+  }
+  .contact-title em { font-style: italic; color: var(--gold); }
+  .contact-sub {
+    font-size: 0.82rem; 
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.05em; 
+    line-height: 1.8; 
+    margin-bottom: 4rem;
+  }
+  .contact-form { display: grid; gap: 1.5rem; text-align: left; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+  .form-label {
+    font-size: 0.6rem; 
+    font-weight: 800;
+    letter-spacing: 0.2em; 
+    text-transform: uppercase; 
+    color: var(--gold);
+  }
+  .form-input, .form-textarea {
+    background: transparent; border: none;
+    border-bottom: 1px solid var(--border-bright);
+    padding: 0.75rem 0; 
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif; 
+    font-size: 0.9rem;
+    font-weight: 600;
+    outline: none; 
+    transition: border-color 0.3s;
+  }
+  .form-input:focus, .form-textarea:focus { border-color: var(--gold); }
+  .form-input::placeholder, .form-textarea::placeholder { color: var(--text-muted); font-size: 0.85rem; }
+  .form-textarea { resize: none; height: 120px; }
+  .form-submit { display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; }
+  .form-note { 
+    font-size: 0.7rem; 
+    font-weight: 600;
+    color: var(--text-muted); 
+    letter-spacing: 0.05em; 
+  }
+  .btn-send {
+    display: inline-flex; align-items: center; gap: 1rem;
+    padding: 1rem 2.5rem; 
+    background: transparent;
+    border: 2px solid var(--gold); 
+    color: var(--gold);
+    font-family: 'Space Grotesk', sans-serif; 
+    font-size: 0.7rem; 
+    font-weight: 800;
+    letter-spacing: 0.2em; 
+    text-transform: uppercase;
+    cursor: pointer; 
+    transition: all 0.3s ease;
+  }
+  .btn-send:hover { background: var(--gold); color: var(--bg); }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 3rem 4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 3rem;
+    align-items: flex-start;
+  }
+  
+  .footer-left {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; 
+    font-weight: 900;
+    letter-spacing: 0.2em; 
+    color: var(--gold);
+  }
+  
+  .footer-copy { 
+    font-size: 0.65rem; 
+    font-weight: 700;
+    color: var(--text-muted); 
+    letter-spacing: 0.1em; 
+  }
+  
+  .footer-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+  
+  .footer-contact-title {
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  
+  .footer-contact-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  
+  .footer-contact-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  
+  .footer-contact-link {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-soft);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .footer-contact-link:hover {
+    color: var(--gold);
+  }
+  
+  .footer-socials { 
+    display: flex; 
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+  
+  .footer-social-title {
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  
+  .footer-social-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+  
+  .footer-socials a {
+    font-size: 0.65rem; 
+    font-weight: 800;
+    letter-spacing: 0.15em; 
+    text-transform: uppercase;
+    color: var(--text-muted); 
+    text-decoration: none; 
+    transition: color 0.3s;
+  }
+  .footer-socials a:hover { color: var(--gold); }
+
+  .marquee-wrap {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 1.25rem 0; 
+    overflow: hidden; 
+    background: var(--bg2);
+  }
+  .marquee-track {
+    display: flex;
+    animation: marquee 22s linear infinite;
+    white-space: nowrap; 
+    gap: 3rem;
+  }
+  .marquee-item {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; 
+    font-weight: 800;
+    font-style: italic;
+    color: var(--text-muted); 
+    letter-spacing: 0.08em;
+    display: flex; 
+    align-items: center; 
+    gap: 3rem;
+  }
+  .marquee-dot { color: var(--gold); font-style: normal; }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  .behance-link {
+    display: inline-flex; align-items: center; gap: 0.75rem;
+    margin-top: 3rem;
+    padding: 0.85rem 1.75rem;
+    border: 2px solid var(--border-bright);
+    color: var(--text-soft);
+    font-size: 0.68rem; 
+    font-weight: 800;
+    letter-spacing: 0.2em; 
+    text-transform: uppercase;
+    text-decoration: none; 
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .behance-link:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* Hero Slider */
+  .hero-slider {
+    position: absolute;
+    top: 0; right: 0;
+    width: 42%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+  }
+  .hero-slider::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to right, var(--bg) 0%, rgba(10,10,10,0.5) 40%, transparent 100%);
+    z-index: 2;
+    pointer-events: none;
+  }
+  .hero-slider::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, var(--bg) 0%, transparent 30%);
+    z-index: 2;
+    pointer-events: none;
+  }
+  .slider-track {
+    display: flex;
+    flex-direction: column;
+    animation: slideUp 18s linear infinite;
+    will-change: transform;
+  }
+  .slider-track:hover { animation-play-state: paused; }
+  @keyframes slideUp {
+    0%   { transform: translateY(0); }
+    100% { transform: translateY(-50%); }
+  }
+  .slider-item {
+    width: 100%;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .slider-item img {
+    width: 100%;
+    height: 340px;
+    object-fit: cover;
+    display: block;
+    opacity: 0.7;
+    transition: opacity 0.4s;
+    border-left: 1px solid var(--border);
+  }
+  .slider-item-label {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 1rem 1.25rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
+    z-index: 3;
+  }
+  .slider-item-cat {
+    font-size: 0.55rem; 
+    font-weight: 800;
+    letter-spacing: 0.25em;
+    text-transform: uppercase; 
+    color: var(--gold);
+    margin-bottom: 0.2rem;
+  }
+  .slider-item-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem; 
+    font-weight: 800;
+    color: var(--text); 
+    line-height: 1.2;
+  }
+  .slider-dots {
+    position: absolute;
+    right: 1.5rem; 
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex; 
+    flex-direction: column; 
+    gap: 8px;
+    z-index: 10;
+  }
+  .slider-dot {
+    width: 2px; 
+    height: 20px;
+    background: rgba(201,168,76,0.25);
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .slider-dot.active { background: var(--gold); height: 32px; }
+
+  /* Project Detail Page */
+  .project-detail-page {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: var(--bg);
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  .project-detail-page.active {
+    display: block;
+    animation: fadeInUp 0.6s ease-out;
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .project-detail-header {
+    position: relative;
+    height: 60vh;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+  .project-detail-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+  }
+  .project-detail-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%);
+    z-index: 1;
+  }
+  .project-detail-close {
+    position: absolute;
+    top: 2rem;
+    left: 4rem;
+    z-index: 10;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--gold);
+    cursor: pointer;
+    font-weight: 900;
+    transition: color 0.3s;
+  }
+  .project-detail-close:hover { color: var(--neon); }
+  .project-detail-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 4rem;
+  }
+  .project-detail-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+  .project-detail-info {
+    display: flex;
+    gap: 3rem;
+    font-size: 0.8rem;
+  }
+  .project-detail-info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .project-detail-info-label {
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-size: 0.65rem;
+  }
+  .project-detail-info-value {
+    font-weight: 600;
+    color: var(--text-soft);
+  }
+  .project-detail-body {
+    padding: 6rem 4rem;
+    max-width: 900px;
+  }
+  .project-detail-section {
+    margin-bottom: 4rem;
+  }
+  .project-detail-section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    margin-bottom: 1.5rem;
+    color: var(--text);
+  }
+  .project-detail-section-text {
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.8;
+    color: var(--text-soft);
+  }
+  .project-detail-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin: 2rem 0;
+  }
+  .project-detail-gallery img {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--border);
+  }
+  .project-detail-cta {
+    display: flex;
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+  .project-detail-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+    background: transparent;
+    border: 2px solid var(--gold);
+    color: var(--gold);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .project-detail-btn:hover {
+    background: var(--gold);
+    color: var(--bg);
+  }
+
+  @media (max-width: 1024px) {
+    .about-grid, .form-row { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: 1fr; }
+    .project-card.featured { grid-column: span 1; aspect-ratio: 4/3; }
+    .projects-grid { grid-template-columns: repeat(2, 1fr); }
+    nav { padding: 1rem 2rem; }
+    section { padding: 4rem 2rem; }
+    footer { grid-template-columns: 1fr; gap: 2rem; }
+  @media (max-width: 600px) {
+    .projects-grid { grid-template-columns: 1fr; }
+  }
+    .project-detail-gallery { grid-template-columns: 1fr; }
+    .project-detail-info { flex-direction: column; gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav id="navbar">
+  <a href="#" class="nav-logo" onclick="closeProjectDetail()"></a>
+  <ul class="nav-links">
+    <li><a href="#about" onclick="closeProjectDetail()">About</a></li>
+    <li><a href="#projects" onclick="closeProjectDetail()">Work</a></li>
+    <li><a href="#services" onclick="closeProjectDetail()">Services</a></li>
+    <li><a href="#contact" onclick="closeProjectDetail()">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <div class="hero-eyebrow-line"></div>
+      <span>Senior Graphic &amp; UI/UX Designer · Cairo, Egypt</span>
+    </div>
+    <h1 class="hero-name">
+      Mostafa<br><em>El Shorafa</em>
+    </h1>
+    <p class="hero-desc">
+      Delivering impactful visual solutions across digital and brand-focused projects — where strategy meets aesthetics.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary">View Work →</a>
+      <a href="#contact" class="btn-ghost">Get in touch ↗</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">4+</div>
+      <div class="stat-label">Years Experience</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">30+</div>
+      <div class="stat-label">Projects Done</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">30+</div>
+      <div class="stat-label">Happy Clients</div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+
+  <!-- Hero Auto-Scroll Image Slider -->
+  <div class="hero-slider">
+    <div class="slider-track" id="sliderTrack">
+      <!-- Set 1 -->
+      <div class="slider-item">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/404/a86e6d238672123.Y3JvcCwzODM1LDMwMDAsODUsMA.png" alt="UI/UX Redesign Mobile Application">
+        <div class="slider-item-label">
+          <div class="slider-item-cat">UI/UX Design</div>
+          <div class="slider-item-name">Mobile App Redesign</div>
+        </div>
+      </div>
+      <div class="slider-item">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/404/628aa5222286571.67e467afb9ec0.jpg" alt="Web Design">
+        <div class="slider-item-label">
+          <div class="slider-item-cat">Web Design</div>
+          <div class="slider-item-name">Web Design</div>
+        </div>
+      </div>
+      <div class="slider-item">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/404/475755247172055.Y3JvcCw4MDgsNjMyLDAsMA.png" alt="Screens Menu Design">
+        <div class="slider-item-label">
+          <div class="slider-item-cat">UI Design</div>
+          <div class="slider-item-name">Screens Menu Design</div>
+        </div>
+      </div>
+      <div class="slider-item">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/404/902b36247050123.Y3JvcCw4MDgsNjMyLDAsMA.png" alt="Trading Social Media">
+        <div class="slider-item-label">
+          <div class="slider-item-cat">Social Media</div>
+          <div class="slider-item-name">Trading Social Media Designs</div>
+        </div>
+      </div>
+      <div class="slider-item">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/404/ce652e201957453.Y3JvcCwxMDgwLDg0NCwwLDExNw.png" alt="Landing Page Design">
+        <div class="slider-item-label">
+          <div class="slider-item-cat">UI/UX · Landing Page</div>
+          <div class="slider-item-name">Landing Page Design</div>
+        </div>
+      </div>
+      <div class="slider-item">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/404/928efe244560173.Y3JvcCwxMDgwLDg0NCwwLDEw.png" alt="Speciality Coffee">
+        <div class="slider-item-label">
+          <div class="slider-item-cat">Brand Design</div>
+          <div class="slider-item-name">Speciality Coffee</div>
+        </div>
+      </div>
+      <div class="slider-item">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/404/398916202770461.Y3JvcCwzMTYyLDI0NzQsMTcyLDA.png" alt="Mobile Application">
+        <div class="slider-item-label">
+          <div class="slider-item-cat">UI/UX</div>
+          <div class="slider-item-name">Mobile Application</div>
+        </div>
+      </div>
+      <div class="slider-item">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/404/82c4db245422423.Y3JvcCw4MDgsNjMyLDAsMA.png" alt="Social Media Posts">
+        <div class="slider-item-label">
+          <div class="slider-item-cat">Social Media</div>
+          <div class="slider-item-name">Social Media Posts</div>
+        </div>
+      </div>
+      <!-- Set 2 — duplicate for seamless loop -->
+      <div class="slider-item">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/404/a86e6d238672123.Y3JvcCwzODM1LDMwMDAsODUsMA.png" alt="UI/UX Redesign Mobile Application">
+        <div class="slider-item-label">
+          <div class="slider-item-cat">UI/UX Design</div>
+          <div class="slider-item-name">Mobile App Redesign</div>
+        </div>
+      </div>
+      <div class="slider-item">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/404/628aa5222286571.67e467afb9ec0.jpg" alt="Web Design">
+        <div class="slider-item-label">
+          <div class="slider-item-cat">Web Design</div>
+          <div class="slider-item-name">Web Design</div>
+        </div>
+      </div>
+      <div class="slider-item">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/404/475755247172055.Y3JvcCw4MDgsNjMyLDAsMA.png" alt="Screens Menu Design">
+        <div class="slider-item-label">
+          <div class="slider-item-cat">UI Design</div>
+          <div class="slider-item-name">Screens Menu Design</div>
+        </div>
+      </div>
+      <div class="slider-item">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/404/902b36247050123.Y3JvcCw4MDgsNjMyLDAsMA.png" alt="Trading Social Media">
+        <div class="slider-item-label">
+          <div class="slider-item-cat">Social Media</div>
+          <div class="slider-item-name">Trading Social Media Designs</div>
+        </div>
+      </div>
+      <div class="slider-item">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/404/ce652e201957453.Y3JvcCwxMDgwLDg0NCwwLDExNw.png" alt="Landing Page Design">
+        <div class="slider-item-label">
+          <div class="slider-item-cat">UI/UX · Landing Page</div>
+          <div class="slider-item-name">Landing Page Design</div>
+        </div>
+      </div>
+      <div class="slider-item">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/404/928efe244560173.Y3JvcCwxMDgwLDg0NCwwLDEw.png" alt="Speciality Coffee">
+        <div class="slider-item-label">
+          <div class="slider-item-cat">Brand Design</div>
+          <div class="slider-item-name">Speciality Coffee</div>
+        </div>
+      </div>
+      <div class="slider-item">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/404/398916202770461.Y3JvcCwzMTYyLDI0NzQsMTcyLDA.png" alt="Mobile Application">
+        <div class="slider-item-label">
+          <div class="slider-item-cat">UI/UX</div>
+          <div class="slider-item-name">Mobile Application</div>
+        </div>
+      </div>
+      <div class="slider-item">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/404/82c4db245422423.Y3JvcCw4MDgsNjMyLDAsMA.png" alt="Social Media Posts">
+        <div class="slider-item-label">
+          <div class="slider-item-cat">Social Media</div>
+          <div class="slider-item-name">Social Media Posts</div>
+        </div>
+      </div>
+    </div>
+    <div class="slider-dots" id="sliderDots">
+      <div class="slider-dot active"></div>
+      <div class="slider-dot"></div>
+      <div class="slider-dot"></div>
+      <div class="slider-dot"></div>
+      <div class="slider-dot"></div>
+      <div class="slider-dot"></div>
+      <div class="slider-dot"></div>
+      <div class="slider-dot"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Marquee -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <div class="marquee-item">Brand Identity <span class="marquee-dot">✦</span> UI/UX Design <span class="marquee-dot">✦</span> Social Media <span class="marquee-dot">✦</span> Motion Graphics <span class="marquee-dot">✦</span> Web Design <span class="marquee-dot">✦</span> Logo Design <span class="marquee-dot">✦</span> Mobile Apps <span class="marquee-dot">✦</span> Art Direction</div>
+    <div class="marquee-item">Brand Identity <span class="marquee-dot">✦</span> UI/UX Design <span class="marquee-dot">✦</span> Social Media <span class="marquee-dot">✦</span> Motion Graphics <span class="marquee-dot">✦</span> Web Design <span class="marquee-dot">✦</span> Logo Design <span class="marquee-dot">✦</span> Mobile Apps <span class="marquee-dot">✦</span> Art Direction</div>
+  </div>
+</div>
+
+<!-- About -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-visual reveal">
+      <div class="about-img-frame">
+        <div class="about-corner tl"></div>
+        <div class="about-corner br"></div>
+        <img src="Mostafa.jpg" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center top;">
+      </div>
+      <div class="about-badge" style="position:absolute; bottom:1.5rem; right:1.5rem; background:var(--gold); color:var(--bg); padding:1rem 1.25rem; font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; font-weight:800; text-align:center; line-height:1.6;">
+        Senior<br>Designer<br>2021—Now
+      </div>
+    </div>
+    <div class="about-text">
+      <div class="section-tag reveal">
+        <span>About Me</span>
+        <div class="section-tag-line"></div>
+      </div>
+      <h2 class="section-title reveal reveal-delay-1">
+        Design that<br><em>speaks</em> louder<br>than words
+      </h2>
+      <div class="gold-divider reveal reveal-delay-2"></div>
+      <p class="about-body reveal reveal-delay-2">
+        I'm a Senior Graphic Designer and UI/UX Designer with 4 years of experience delivering impactful visual solutions across digital and brand-focused projects.
+      </p>
+      <p class="about-body reveal reveal-delay-3">
+        Over the years, I've successfully completed 30+ projects for diverse clients, combining creativity, strategy, and user-centered design to build strong brand identities and seamless user experiences. My work focuses on turning ideas into designs that are both visually compelling and highly effective.
+      </p>
+      <div class="about-skills reveal reveal-delay-4">
+        <span class="skill-pill">Figma</span>
+        <span class="skill-pill">Adobe CC</span>
+        <span class="skill-pill">Illustrator</span>
+        <span class="skill-pill">Photoshop</span>
+        <span class="skill-pill">After Effects</span>
+        <span class="skill-pill">Premiere Pro</span>
+        <span class="skill-pill">Brand Identity</span>
+        <span class="skill-pill">UI/UX Design</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Projects -->
+<section id="projects">
+  <div class="section-header">
+    <div class="section-tag reveal">
+      <span>Selected Work</span>
+      <div class="section-tag-line"></div>
+    </div>
+    <h2 class="section-title reveal reveal-delay-1">10 Real <em>Projects</em></h2>
+  </div>
+  <div class="projects-grid reveal">
+
+    <!-- Project 1 — Featured -->
+    <div class="project-card featured p1" onclick="openProjectDetail(1)">
+      <div class="project-bg">
+        <img class="project-thumb" src="https://mir-s3-cdn-cf.behance.net/projects/404/a86e6d238672123.Y3JvcCwzODM1LDMwMDAsODUsMA.png" alt="UI/UX Redesign Mobile Application">
+        UI/UX
+      </div>
+      <span class="project-num">01</span>
+      <div class="project-info-static">
+        <div class="project-category">UI/UX Design</div>
+        <div class="project-name">UI/UX Redesign — Mobile Application</div>
+      </div>
+      <div class="project-overlay">
+        <div class="project-category">UI/UX Design · 2025</div>
+        <div class="project-name">UI/UX Redesign — Mobile Application</div>
+        <div class="project-desc">A full mobile app redesign focused on improving user experience, visual hierarchy, and interaction flows for a cleaner, more intuitive interface.</div>
+        <div class="project-link">View Project →</div>
+      </div>
+    </div>
+
+    <!-- Project 2 -->
+    <div class="project-card p2" onclick="openProjectDetail(2)">
+      <div class="project-bg">
+        <img class="project-thumb" src="https://mir-s3-cdn-cf.behance.net/projects/404/628aa5222286571.67e467afb9ec0.jpg" alt="Web Design">
+        WEB
+      </div>
+      <span class="project-num">02</span>
+      <div class="project-info-static">
+        <div class="project-category">Web Design</div>
+        <div class="project-name">Web Design</div>
+      </div>
+      <div class="project-overlay">
+        <div class="project-category">Web Design · 2024</div>
+        <div class="project-name">Web Design</div>
+        <div class="project-desc">A responsive web design project delivering a polished, modern interface with strong visual identity and thoughtful layout structure.</div>
+        <div class="project-link">View Project →</div>
+      </div>
+    </div>
+
+    <!-- Project 3 -->
+    <div class="project-card p3" onclick="openProjectDetail(3)">
+      <div class="project-bg">
+        <img class="project-thumb" src="https://mir-s3-cdn-cf.behance.net/projects/404/ce652e201957453.Y3JvcCwxMDgwLDg0NCwwLDExNw.png" alt="Landing Page Design">
+        LAND
+      </div>
+      <span class="project-num">03</span>
+      <div class="project-info-static">
+        <div class="project-category">UI/UX · Landing Page</div>
+        <div class="project-name">Landing Page Design</div>
+      </div>
+      <div class="project-overlay">
+        <div class="project-category">UI/UX · Landing Page · 2024</div>
+        <div class="project-name">Landing Page Design</div>
+        <div class="project-desc">A high-converting landing page design with a clear visual hierarchy, strong call-to-actions, and a clean, professional aesthetic.</div>
+        <div class="project-link">View Project →</div>
+      </div>
+    </div>
+
+    <!-- Project 4 -->
+    <div class="project-card p4" onclick="openProjectDetail(4)">
+      <div class="project-bg">
+        <img class="project-thumb" src="https://mir-s3-cdn-cf.behance.net/projects/404/928efe244560173.Y3JvcCwxMDgwLDg0NCwwLDEw.png" alt="Speciality Coffee">
+        BRAND
+      </div>
+      <span class="project-num">04</span>
+      <div class="project-info-static">
+        <div class="project-category">Brand · Graphic Design</div>
+        <div class="project-name">Speciality Coffee</div>
+      </div>
+      <div class="project-overlay">
+        <div class="project-category">Brand Design · 2024</div>
+        <div class="project-name">Speciality Coffee</div>
+        <div class="project-desc">Visual identity and design system for a specialty coffee brand — combining warm tones, refined typography, and artisan aesthetics.</div>
+        <div class="project-link">View Project →</div>
+      </div>
+    </div>
+
+    <!-- Project 5 -->
+    <div class="project-card p5" onclick="openProjectDetail(5)">
+      <div class="project-bg">
+        <img class="project-thumb" src="https://mir-s3-cdn-cf.behance.net/projects/404/475755247172055.Y3JvcCw4MDgsNjMyLDAsMA.png" alt="Screens Menu Design">
+        MENU
+      </div>
+      <span class="project-num">05</span>
+      <div class="project-info-static">
+        <div class="project-category">UI Design</div>
+        <div class="project-name">Screens Menu Design</div>
+      </div>
+      <div class="project-overlay">
+        <div class="project-category">UI Design · 2024</div>
+        <div class="project-name">Screens Menu Design</div>
+        <div class="project-desc">Intuitive menu interface screens designed for optimal user navigation and visual appeal across multiple platforms.</div>
+        <div class="project-link">View Project →</div>
+      </div>
+    </div>
+
+    <!-- Project 6 -->
+    <div class="project-card p6" onclick="openProjectDetail(6)">
+      <div class="project-bg">
+        <img class="project-thumb" src="https://mir-s3-cdn-cf.behance.net/projects/404/902b36247050123.Y3JvcCw4MDgsNjMyLDAsMA.png" alt="Trading Social Media">
+        TRADING
+      </div>
+      <span class="project-num">06</span>
+      <div class="project-info-static">
+        <div class="project-category">Social Media Design</div>
+        <div class="project-name">Trading Social Media Designs</div>
+      </div>
+      <div class="project-overlay">
+        <div class="project-category">Social Media · 2024</div>
+        <div class="project-name">Trading Social Media Designs</div>
+        <div class="project-desc">Engaging social media graphics designed to promote trading strategies and financial content with impact and clarity.</div>
+        <div class="project-link">View Project →</div>
+      </div>
+    </div>
+
+    <!-- Project 7 -->
+    <div class="project-card p7" onclick="openProjectDetail(7)">
+      <div class="project-bg">
+        <img class="project-thumb" src="https://mir-s3-cdn-cf.behance.net/projects/404/398916202770461.Y3JvcCwzMTYyLDI0NzQsMTcyLDA.png" alt="Mobile Application">
+        APP
+      </div>
+      <span class="project-num">07</span>
+      <div class="project-info-static">
+        <div class="project-category">UI/UX Design</div>
+        <div class="project-name">Mobile Application</div>
+      </div>
+      <div class="project-overlay">
+        <div class="project-category">UI/UX Design · 2024</div>
+        <div class="project-name">Mobile Application</div>
+        <div class="project-desc">Complete mobile application interface design focused on user-centric design principles and seamless interactions.</div>
+        <div class="project-link">View Project →</div>
+      </div>
+    </div>
+
+    <!-- Project 8 -->
+    <div class="project-card p8" onclick="openProjectDetail(8)">
+      <div class="project-bg">
+        <img class="project-thumb" src="https://mir-s3-cdn-cf.behance.net/projects/404/82c4db245422423.Y3JvcCw4MDgsNjMyLDAsMA.png" alt="Social Media Posts">
+        SOCIAL
+      </div>
+      <span class="project-num">08</span>
+      <div class="project-info-static">
+        <div class="project-category">Social Media Design</div>
+        <div class="project-name">Social Media Posts Collection</div>
+      </div>
+      <div class="project-overlay">
+        <div class="project-category">Social Media · 2024</div>
+        <div class="project-name">Social Media Posts Collection</div>
+        <div class="project-desc">A collection of eye-catching social media posts designed to boost brand engagement and visual presence across platforms.</div>
+        <div class="project-link">View Project →</div>
+      </div>
+    </div>
+
+    <!-- Project 9 -->
+    <div class="project-card p9" onclick="openProjectDetail(9)">
+      <div class="project-bg">
+        <img class="project-thumb" src="https://mir-s3-cdn-cf.behance.net/projects/404/628aa5222286571.67e467afb9ec0.jpg" alt="Strategic Social Media Designs">
+        STRATEGY
+      </div>
+      <span class="project-num">09</span>
+      <div class="project-info-static">
+        <div class="project-category">Social Media Strategy</div>
+        <div class="project-name">Strategic Social Media Designs</div>
+      </div>
+      <div class="project-overlay">
+        <div class="project-category">Social Media · 2024</div>
+        <div class="project-name">Strategic Social Media Designs</div>
+        <div class="project-desc">Strategically crafted social media visuals aligned with brand messaging and campaign objectives for maximum impact.</div>
+        <div class="project-link">View Project →</div>
+      </div>
+    </div>
+
+    <!-- Project 10 -->
+    <div class="project-card p10" onclick="openProjectDetail(10)">
+      <div class="project-bg">
+        <img class="project-thumb" src="https://mir-s3-cdn-cf.behance.net/projects/404/ce652e201957453.Y3JvcCwxMDgwLDg0NCwwLDExNw.png" alt="Fashion Social Media Posts">
+        FASHION
+      </div>
+      <span class="project-num">10</span>
+      <div class="project-info-static">
+        <div class="project-category">Fashion Design</div>
+        <div class="project-name">Fashion Social Media Posts</div>
+      </div>
+      <div class="project-overlay">
+        <div class="project-category">Fashion · 2024</div>
+        <div class="project-name">Fashion Social Media Posts</div>
+        <div class="project-desc">Trendy fashion-focused social media designs that showcase style, elegance, and brand personality effectively.</div>
+        <div class="project-link">View Project →</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="text-align:center;">
+    <a href="https://www.behance.net/mostafaelshor1" target="_blank" class="behance-link reveal">
+      View All Projects on Behance ↗
+    </a>
+  </div>
+</section>
+
+<!-- Services -->
+<section id="services">
+  <div class="section-header">
+    <div class="section-tag reveal">
+      <span>What I Offer</span>
+      <div class="section-tag-line"></div>
+    </div>
+    <h2 class="section-title reveal reveal-delay-1"><em>Services</em> &amp;<br>Expertise</h2>
+  </div>
+  <div class="services-grid reveal">
+    <div class="service-card">
+      <div class="service-num">01</div>
+      <div class="service-icon">◈</div>
+      <h3 class="service-name">Brand Identity Design</h3>
+      <p class="service-desc">Building powerful visual identities from the ground up — logos, color systems, typography, and brand guidelines that communicate your vision with clarity and impact.</p>
+      <div class="service-tags">
+        <span class="service-tag">Logo Design</span>
+        <span class="service-tag">Brand Guidelines</span>
+        <span class="service-tag">Visual Systems</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">02</div>
+      <div class="service-icon">◉</div>
+      <h3 class="service-name">UI/UX Design</h3>
+      <p class="service-desc">Designing intuitive, beautiful digital experiences for web and mobile — from wireframes and prototypes to pixel-perfect UI that delights users and drives results.</p>
+      <div class="service-tags">
+        <span class="service-tag">Mobile Apps</span>
+        <span class="service-tag">Web Design</span>
+        <span class="service-tag">Landing Pages</span>
+        <span class="service-tag">Prototyping</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">03</div>
+      <div class="service-icon">◇</div>
+      <h3 class="service-name">Social Media & Motion</h3>
+      <p class="service-desc">Scroll-stopping social media designs and motion graphics that build brand presence and engage audiences — crafted for digital-first impact.</p>
+      <div class="service-tags">
+        <span class="service-tag">Social Media Posts</span>
+        <span class="service-tag">Motion Graphics</span>
+        <span class="service-tag">After Effects</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="section-tag reveal" style="justify-content:center;">
+      <span>Get In Touch</span>
+    </div>
+    <h2 class="contact-title reveal reveal-delay-1">
+      Let's create<br>something <em>great</em>
+    </h2>
+    <p class="contact-sub reveal reveal-delay-2">
+      Available for freelance projects, brand collaborations, and full-time opportunities.<br>Based in Cairo — working globally.
+    </p>
+    <form class="contact-form reveal reveal-delay-3" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Your Name</label>
+          <input type="text" class="form-input" placeholder="Full name" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Your Email</label>
+          <input type="email" class="form-input" placeholder="email@domain.com" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Project Type</label>
+        <input type="text" class="form-input" placeholder="Brand identity, UI/UX, social media...">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Message</label>
+        <textarea class="form-textarea" placeholder="Tell me about your project..."></textarea>
+      </div>
+      <div class="form-submit">
+        <span class="form-note" id="form-status">All messages are replied to within 24 hours.</span>
+        <button type="submit" class="btn-send">Send Message →</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-left">
+    <div class="footer-logo">
+      
+    </div>
+    <div class="footer-copy">© 2025 Mostafa El Shorafa. All rights reserved.</div>
+  </div>
+  
+  <div class="footer-contact">
+    <div class="footer-contact-title">Contact Info</div>
+    <div class="footer-contact-item">
+      <div class="footer-contact-label">Email</div>
+      <a href="mailto:Shorafa273@gmail.com" class="footer-contact-link">Shorafa273@gmail.com</a>
+    </div>
+    <div class="footer-contact-item">
+      <div class="footer-contact-label">Phone</div>
+      <a href="tel:+201227710072" class="footer-contact-link">+20 122 771 0072</a>
+    </div>
+  </div>
+  
+  <div class="footer-socials">
+    <div class="footer-social-title">Follow Me</div>
+    <div class="footer-social-links">
+      <a href="https://www.behance.net/mostafaelshor1" target="_blank">Behance</a>
+      <a href="https://www.linkedin.com/in/mostafa-el-shorafa-a2ab3a344/" target="_blank">LinkedIn</a>
+    </div>
+  </div>
+</footer>
+
+<!-- PROJECT DETAIL PAGES -->
+
+<div class="project-detail-page" id="project-1">
+  <button class="project-detail-close" onclick="closeProjectDetail()">✕</button>
+  <div class="project-detail-header">
+    <div class="project-detail-bg" style="background-image: url('https://mir-s3-cdn-cf.behance.net/projects/404/a86e6d238672123.Y3JvcCwzODM1LDMwMDAsODUsMA.png');"></div>
+    <div class="project-detail-overlay"></div>
+    <div class="project-detail-content">
+      <h1 class="project-detail-title">UI/UX Redesign — Mobile Application</h1>
+      <div class="project-detail-info">
+        <div class="project-detail-info-item">
+          <div class="project-detail-info-label">Category</div>
+          <div class="project-detail-info-value">UI/UX Design</div>
+        </div>
+        <div class="project-detail-info-item">
+          <div class="project-detail-info-label">Year</div>
+          <div class="project-detail-info-value">2025</div>
+        </div>
+        <div class="project-detail-info-item">
+          <div class="project-detail-info-label">Status</div>
+          <div class="project-detail-info-value">Completed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="project-detail-body">
+    <div class="project-detail-section">
+      <h2 class="project-detail-section-title">Project Overview</h2>
+      <p class="project-detail-section-text">
+        A comprehensive mobile app redesign focused on improving user experience, visual hierarchy, and interaction flows. The project involved analyzing user behavior, creating wireframes, and developing a cleaner, more intuitive interface that enhances usability across all devices.
+      </p>
+    </div>
+    <div class="project-detail-section">
+      <h2 class="project-detail-section-title">Objectives</h2>
+      <p class="project-detail-section-text">
+        • Improve user engagement and retention through better UX<br>
+        • Modernize the visual design with contemporary aesthetics<br>
+        • Streamline navigation and reduce cognitive load<br>
+        • Implement responsive design for all screen sizes<br>
+        • Create a consistent design system for scalability
+      </p>
+    </div>
+    <div class="project-detail-section">
+      <h2 class="project-detail-section-title">Design Process</h2>
+      <p class="project-detail-section-text">
+        The redesign process began with extensive user research and competitive analysis. I mapped user flows, created detailed wireframes, and developed high-fidelity mockups. The final design leverages modern design principles, smooth animations, and intuitive navigation patterns to create a seamless user experience.
+      </p>
+    </div>
+    <div class="project-detail-cta">
+      <a href="https://www.behance.net/gallery/238672123/UIUX-Redesign-Mobile-Application" target="_blank" class="project-detail-btn">View on Behance →</a>
+    </div>
+  </div>
+</div>
+
+<div class="project-detail-page" id="project-2">
+  <button class="project-detail-close" onclick="closeProjectDetail()">✕</button>
+  <div class="project-detail-header">
+    <div class="project-detail-bg" style="background-image: url('https://mir-s3-cdn-cf.behance.net/projects/404/628aa5222286571.67e467afb9ec0.jpg');"></div>
+    <div class="project-detail-overlay"></div>
+    <div class="project-detail-content">
+      <h1 class="project-detail-title">Web Design</h1>
+      <div class="project-detail-info">
+        <div class="project-detail-info-item">
+          <div class="project-detail-info-label">Category</div>
+          <div class="project-detail-info-value">Web Design</div>
+        </div>
+        <div class="project-detail-info-item">
+          <div class="project-detail-info-label">Year</div>
+          <div class="project-detail-info-value">2024</div>
+        </div>
+        <div class="project-detail-info-item">
+          <div class="project-detail-info-label">Status</div>
+          <div class="project-detail-info-value">Completed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="project-detail-body">
+    <div class="project-detail-section">
+      <h2 class="project-detail-section-title">Project Overview</h2>
+      <p class="project-detail-section-text">
+        A responsive web design project delivering a polished, modern interface with strong visual identity and thoughtful layout structure. The website showcases products/services with an emphasis on user engagement and conversion optimization.
+      </p>
+    </div>
+    <div class="project-detail-section">
+      <h2 class="project-detail-section-title">Key Features</h2>
+      <p class="project-detail-section-text">
+        • Fully responsive design for mobile, tablet, and desktop<br>
+        • Modern visual aesthetics with brand-aligned color schemes<br>
+        • Optimized for conversion and user engagement<br>
+        • Clean, maintainable code structure<br>
+        • Fast loading times and SEO optimization
+      </p>
+    </div>
+    <div class="project-detail-cta">
+      <a href="https://www.behance.net/gallery/222286571/Web-Design" target="_blank" class="project-detail-btn">View on Behance →</a>
+    </div>
+  </div>
+</div>
+
+<div class="project-detail-page" id="project-3">
+  <button class="project-detail-close" onclick="closeProjectDetail()">✕</button>
+  <div class="project-detail-header">
+    <div class="project-detail-bg" style="background-image: url('https://mir-s3-cdn-cf.behance.net/projects/404/ce652e201957453.Y3JvcCwxMDgwLDg0NCwwLDExNw.png');"></div>
+    <div class="project-detail-overlay"></div>
+    <div class="project-detail-content">
+      <h1 class="project-detail-title">Landing Page Design</h1>
+      <div class="project-detail-info">
+        <div class="project-detail-info-item">
+          <div class="project-detail-info-label">Category</div>
+          <div class="project-detail-info-value">UI/UX · Landing Page</div>
+        </div>
+        <div class="project-detail-info-item">
+          <div class="project-detail-info-label">Year</div>
+          <div class="project-detail-info-value">2024</div>
+        </div>
+        <div class="project-detail-info-item">
+          <div class="project-detail-info-label">Status</div>
+          <div class="project-detail-info-value">Completed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="project-detail-body">
+    <div class="project-detail-section">
+      <h2 class="project-detail-section-title">Project Overview</h2>
+      <p class="project-detail-section-text">
+        A high-converting landing page design with clear visual hierarchy, strong call-to-actions, and a clean, professional aesthetic. Designed to drive user engagement and conversion through strategic content placement and compelling visuals.
+      </p>
+    </div>
+    <div class="project-detail-section">
+      <h2 class="project-detail-section-title">Strategy</h2>
+      <p class="project-detail-section-text">
+        • Strategic hierarchy emphasizing key messaging<br>
+        • Strong CTAs positioned for maximum visibility<br>
+        • Trust-building elements and social proof<br>
+        • Fast page load optimization<br>
+        • Mobile-first design approach
+      </p>
+    </div>
+    <div class="project-detail-cta">
+      <a href="https://www.behance.net/gallery/201957453/Landing-Page-Design" target="_blank" class="project-detail-btn">View on Behance →</a>
+    </div>
+  </div>
+</div>
+
+<div class="project-detail-page" id="project-4">
+  <button class="project-detail-close" onclick="closeProjectDetail()">✕</button>
+  <div class="project-detail-header">
+    <div class="project-detail-bg" style="background-image: url('https://mir-s3-cdn-cf.behance.net/projects/404/928efe244560173.Y3JvcCwxMDgwLDg0NCwwLDEw.png');"></div>
+    <div class="project-detail-overlay"></div>
+    <div class="project-detail-content">
+      <h1 class="project-detail-title">Speciality Coffee — Brand Identity</h1>
+      <div class="project-detail-info">
+        <div class="project-detail-info-item">
+          <div class="project-detail-info-label">Category</div>
+          <div class="project-detail-info-value">Brand Design</div>
+        </div>
+        <div class="project-detail-info-item">
+          <div class="project-detail-info-label">Year</div>
+          <div class="project-detail-info-value">2024</div>
+        </div>
+        <div class="project-detail-info-item">
+          <div class="project-detail-info-label">Status</div>
+          <div class="project-detail-info-value">Completed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="project-detail-body">
+    <div class="project-detail-section">
+      <h2 class="project-detail-section-title">Project Overview</h2>
+      <p class="project-detail-section-text">
+        Visual identity and design system for a specialty coffee brand combining warm tones, refined typography, and artisan aesthetics. The branding reflects the premium quality and craftsmanship of specialty coffee culture.
+      </p>
+    </div>
+    <div class="project-detail-section">
+      <h2 class="project-detail-section-title">Brand Elements</h2>
+      <p class="project-detail-section-text">
+        • Custom logo design reflecting brand values<br>
+        • Warm, sophisticated color palette<br>
+        • Curated typography system<br>
+        • Brand guidelines and visual system<br>
+        • Packaging and collateral design
+      </p>
+    </div>
+    <div class="project-detail-cta">
+      <a href="https://www.behance.net/gallery/244560173/Speciality-Coffee" target="_blank" class="project-detail-btn">View on Behance →</a>
+    </div>
+  </div>
+</div>
+
+<div class="project-detail-page" id="project-5">
+  <button class="project-detail-close" onclick="closeProjectDetail()">✕</button>
+  <div class="project-detail-header">
+    <div class="project-detail-bg" style="background-image: url('https://mir-s3-cdn-cf.behance.net/projects/404/475755247172055.Y3JvcCw4MDgsNjMyLDAsMA.png');"></div>
+    <div class="project-detail-overlay"></div>
+    <div class="project-detail-content">
+      <h1 class="project-detail-title">Screens Menu Design</h1>
+      <div class="project-detail-info">
+        <div class="project-detail-info-item">
+          <div class="project-detail-info-label">Category</div>
+          <div class="project-detail-info-value">UI Design</div>
+        </div>
+        <div class="project-detail-info-item">
+          <div class="project-detail-info-label">Year</div>
+          <div class="project-detail-info-value">2024</div>
+        </div>
+        <div class="project-detail-info-item">
+          <div class="project-detail-info-label">Status</div>
+          <div class="project-detail-info-value">Completed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="project-detail-body">
+    <div class="project-detail-section">
+      <h2 class="project-detail-section-title">Project Overview</h2>
+      <p class="project-detail-section-text">
+        Intuitive menu interface screens designed for optimal user navigation and visual appeal across multiple platforms. The design focuses on clarity, accessibility, and seamless interaction patterns.
+      </p>
+    </div>
+    <div class="project-detail-section">
+      <h2 class="project-detail-section-title">Design Focus</h2>
+      <p class="project-detail-section-text">
+        • Clear categorization and information architecture<br>
+        • Intuitive navigation flows<br>
+        • Visual consistency across screens<br>
+        • Accessibility standards compliance<br>
+        • Touch-friendly interface elements
+      </p>
+    </div>
+    <div class="project-detail-cta">
+      <a href="https://www.behance.net/gallery/247172055/Screens-Menu-Design" target="_blank" class="project-detail-btn">View on Behance →</a>
+    </div>
+  </div>
+</div>
+
+<div class="project-detail-page" id="project-6">
+  <button class="project-detail-close" onclick="closeProjectDetail()">✕</button>
+  <div class="project-detail-header">
+    <div class="project-detail-bg" style="background-image: url('https://mir-s3-cdn-cf.behance.net/projects/404/902b36247050123.Y3JvcCw4MDgsNjMyLDAsMA.png');"></div>
+    <div class="project-detail-overlay"></div>
+    <div class="project-detail-content">
+      <h1 class="project-detail-title">Trading Social Media Designs</h1>
+      <div class="project-detail-info">
+        <div class="project-detail-info-item">
+          <div class="project-detail-info-label">Category</div>
+          <div class="project-detail-info-value">Social Media Design</div>
+        </div>
+        <div class="project-detail-info-item">
+          <div class="project-detail-info-label">Year</div>
+          <div class="project-detail-info-value">2024</div>
+        </div>
+        <div class="project-detail-info-item">
+          <div class="project-detail-info-label">Status</div>
+          <div class="project-detail-info-value">Completed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="project-detail-body">
+    <div class="project-detail-section">
+      <h2 class="project-detail-section-title">Project Overview</h2>
+      <p class="project-detail-section-text">
+        Engaging social media graphics designed to promote trading strategies and financial content with impact and clarity. The designs communicate complex information in an accessible, visually appealing manner.
+      </p>
+    </div>
+    <div class="project-detail-section">
+      <h2 class="project-detail-section-title">Content Strategy</h2>
+      <p class="project-detail-section-text">
+        • Professional financial visual language<br>
+        • Data visualization excellence<br>
+        • Consistent branding across posts<br>
+        • High engagement design patterns<br>
+        • Platform-optimized formats
+      </p>
+    </div>
+    <div class="project-detail-cta">
+      <a href="https://www.behance.net/gallery/247050123/Trading-Social-Media" target="_blank" class="project-detail-btn">View on Behance →</a>
+    </div>
+  </div>
+</div>
+
+<div class="project-detail-page" id="project-7">
+  <button class="project-detail-close" onclick="closeProjectDetail()">✕</button>
+  <div class="project-detail-header">
+    <div class="project-detail-bg" style="background-image: url('https://mir-s3-cdn-cf.behance.net/projects/404/398916202770461.Y3JvcCwzMTYyLDI0NzQsMTcyLDA.png');"></div>
+    <div class="project-detail-overlay"></div>
+    <div class="project-detail-content">
+      <h1 class="project-detail-title">Mobile Application Interface</h1>
+      <div class="project-detail-info">
+        <div class="project-detail-info-item">
+          <div class="project-detail-info-label">Category</div>
+          <div class="project-detail-info-value">UI/UX Design</div>
+        </div>
+        <div class="project-detail-info-item">
+          <div class="project-detail-info-label">Year</div>
+          <div class="project-detail-info-value">2024</div>
+        </div>
+        <div class="project-detail-info-item">
+          <div class="project-detail-info-label">Status</div>
+          <div class="project-detail-info-value">Completed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="project-detail-body">
+    <div class="project-detail-section">
+      <h2 class="project-detail-section-title">Project Overview</h2>
+      <p class="project-detail-section-text">
+        Complete mobile application interface design focused on user-centric design principles and seamless interactions. The design prioritizes functionality, aesthetics, and user satisfaction across all features.
+      </p>
+    </div>
+    <div class="project-detail-section">
+      <h2 class="project-detail-section-title">Design Highlights</h2>
+      <p class="project-detail-section-text">
+        • Comprehensive design system<br>
+        • Detailed wireframes and prototypes<br>
+        • Smooth micro-interactions<br>
+        • Performance optimization<br>
+        • Inclusive design principles
+      </p>
+    </div>
+    <div class="project-detail-cta">
+      <a href="https://www.behance.net/gallery/202770461/Mobile-Application" target="_blank" class="project-detail-btn">View on Behance →</a>
+    </div>
+  </div>
+</div>
+
+<div class="project-detail-page" id="project-8">
+  <button class="project-detail-close" onclick="closeProjectDetail()">✕</button>
+  <div class="project-detail-header">
+    <div class="project-detail-bg" style="background-image: url('https://mir-s3-cdn-cf.behance.net/projects/404/82c4db245422423.Y3JvcCw4MDgsNjMyLDAsMA.png');"></div>
+    <div class="project-detail-overlay"></div>
+    <div class="project-detail-content">
+      <h1 class="project-detail-title">Social Media Posts Collection</h1>
+      <div class="project-detail-info">
+        <div class="project-detail-info-item">
+          <div class="project-detail-info-label">Category</div>
+          <div class="project-detail-info-value">Social Media Design</div>
+        </div>
+        <div class="project-detail-info-item">
+          <div class="project-detail-info-label">Year</div>
+          <div class="project-detail-info-value">2024</div>
+        </div>
+        <div class="project-detail-info-item">
+          <div class="project-detail-info-label">Status</div>
+          <div class="project-detail-info-value">Completed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="project-detail-body">
+    <div class="project-detail-section">
+      <h2 class="project-detail-section-title">Project Overview</h2>
+      <p class="project-detail-section-text">
+        A collection of eye-catching social media posts designed to boost brand engagement and visual presence across platforms. Each design is optimized for maximum impact and audience interaction.
+      </p>
+    </div>
+    <div class="project-detail-section">
+      <h2 class="project-detail-section-title">Collection Includes</h2>
+      <p class="project-detail-section-text">
+        • Platform-specific designs (Instagram, Facebook, Twitter)<br>
+        • Seasonal content variations<br>
+        • Story-format graphics<br>
+        • Carousel post designs<br>
+        • High-engagement templates
+      </p>
+    </div>
+    <div class="project-detail-cta">
+      <a href="https://www.behance.net/gallery/245422423/Social-Media-Posts" target="_blank" class="project-detail-btn">View on Behance →</a>
+    </div>
+  </div>
+</div>
+
+<div class="project-detail-page" id="project-9">
+  <button class="project-detail-close" onclick="closeProjectDetail()">✕</button>
+  <div class="project-detail-header">
+    <div class="project-detail-bg" style="background-image: url('https://mir-s3-cdn-cf.behance.net/projects/404/628aa5222286571.67e467afb9ec0.jpg');"></div>
+    <div class="project-detail-overlay"></div>
+    <div class="project-detail-content">
+      <h1 class="project-detail-title">Strategic Social Media Designs</h1>
+      <div class="project-detail-info">
+        <div class="project-detail-info-item">
+          <div class="project-detail-info-label">Category</div>
+          <div class="project-detail-info-value">Social Media Strategy</div>
+        </div>
+        <div class="project-detail-info-item">
+          <div class="project-detail-info-label">Year</div>
+          <div class="project-detail-info-value">2024</div>
+        </div>
+        <div class="project-detail-info-item">
+          <div class="project-detail-info-label">Status</div>
+          <div class="project-detail-info-value">Completed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="project-detail-body">
+    <div class="project-detail-section">
+      <h2 class="project-detail-section-title">Project Overview</h2>
+      <p class="project-detail-section-text">
+        Strategically crafted social media visuals aligned with brand messaging and campaign objectives for maximum impact. These designs were developed with a clear understanding of audience behavior and platform algorithms.
+      </p>
+    </div>
+    <div class="project-detail-section">
+      <h2 class="project-detail-section-title">Strategy Implementation</h2>
+      <p class="project-detail-section-text">
+        • Data-driven design decisions<br>
+        • A/B testing visual variations<br>
+        • Campaign-aligned aesthetics<br>
+        • Audience targeting optimization<br>
+        • Performance metrics tracking
+      </p>
+    </div>
+    <div class="project-detail-cta">
+      <a href="https://www.behance.net/gallery/222286571/Strategic-Social-Media" target="_blank" class="project-detail-btn">View on Behance →</a>
+    </div>
+  </div>
+</div>
+
+<div class="project-detail-page" id="project-10">
+  <button class="project-detail-close" onclick="closeProjectDetail()">✕</button>
+  <div class="project-detail-header">
+    <div class="project-detail-bg" style="background-image: url('https://mir-s3-cdn-cf.behance.net/projects/404/ce652e201957453.Y3JvcCwxMDgwLDg0NCwwLDExNw.png');"></div>
+    <div class="project-detail-overlay"></div>
+    <div class="project-detail-content">
+      <h1 class="project-detail-title">Fashion Social Media Posts</h1>
+      <div class="project-detail-info">
+        <div class="project-detail-info-item">
+          <div class="project-detail-info-label">Category</div>
+          <div class="project-detail-info-value">Fashion Design</div>
+        </div>
+        <div class="project-detail-info-item">
+          <div class="project-detail-info-label">Year</div>
+          <div class="project-detail-info-value">2024</div>
+        </div>
+        <div class="project-detail-info-item">
+          <div class="project-detail-info-label">Status</div>
+          <div class="project-detail-info-value">Completed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="project-detail-body">
+    <div class="project-detail-section">
+      <h2 class="project-detail-section-title">Project Overview</h2>
+      <p class="project-detail-section-text">
+        Trendy fashion-focused social media designs that showcase style, elegance, and brand personality effectively. Each design captures the essence of contemporary fashion trends while maintaining brand identity.
+      </p>
+    </div>
+    <div class="project-detail-section">
+      <h2 class="project-detail-section-title">Design Elements</h2>
+      <p class="project-detail-section-text">
+        • Fashion-forward visual aesthetics<br>
+        • Trend-aware design choices<br>
+        • Lifestyle imagery integration<br>
+        • Brand personality expression<br>
+        • Influencer-ready formatting
+      </p>
+    </div>
+    <div class="project-detail-cta">
+      <a href="https://www.behance.net/gallery/201957453/Fashion-Social-Media" target="_blank" class="project-detail-btn">View on Behance →</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function animateCursor() {
+    cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => obs.observe(el));
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const status = document.getElementById('form-status');
+    status.textContent = '✦ Message sent! I\'ll be in touch soon.';
+    status.style.color = '#C9A84C';
+    e.target.reset();
+  }
+
+  // Slider active dot tracker
+  const dots = document.querySelectorAll('.slider-dot');
+  const itemHeight = 340;
+  const totalItems = 8;
+  setInterval(() => {
+    const track = document.getElementById('sliderTrack');
+    const style = window.getComputedStyle(track);
+    const matrix = new DOMMatrix(style.transform);
+    const translateY = Math.abs(matrix.m42);
+    const idx = Math.floor((translateY % (itemHeight * totalItems)) / itemHeight) % totalItems;
+    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+  }, 400);
+
+  // Project Detail Functions
+  function openProjectDetail(projectNum) {
+    const projectPage = document.getElementById(`project-${projectNum}`);
+    projectPage.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeProjectDetail() {
+    const activePages = document.querySelectorAll('.project-detail-page.active');
+    activePages.forEach(page => page.classList.remove('active'));
+    document.body.style.overflow = 'auto';
+  }
+
+  // Close on ESC key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeProjectDetail();
+  });
+</script>
+</body>
+</html>
