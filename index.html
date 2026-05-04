@@ -1034,6 +1034,7 @@
   gap: 10px;
 }
 
+
 .footer-social-links a {
   display: block;
   font-size: 0.9rem;
@@ -1047,13 +1048,29 @@
 
     /* Mobile slider further tuned */
     .hero-slider {
-      margin-top: 1.25rem;
-    }
-    .slider-item img {
-      height: 180px;
-      min-width: 260px;
-    }
-    .slider-item { min-width: 260px; }
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  margin-top: 1.25rem;
+  padding-bottom: 1rem;
+}
+
+.slider-item {
+  flex: 0 0 auto;
+  width: 260px;
+  scroll-snap-align: start;
+}
+
+.slider-item img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+}
 
     .hero-content { max-width: 100%; }
     .hero-eyebrow span { font-size: 0.55rem; letter-spacing: 0.15em; }
