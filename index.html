@@ -486,7 +486,7 @@
     color: var(--text-muted); 
     line-height: 1.8; 
   }
-  .service-tags { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem; }
+  .service-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
   .service-tag {
     font-size: 0.6rem; 
     font-weight: 700;
@@ -517,7 +517,7 @@
   }
   .contact-form { display: grid; gap: 1.5rem; text-align: left; }
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-  .form-group { display: flex; flex-direction: column; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
   .form-label {
     font-size: 0.6rem; 
     font-weight: 800;
@@ -1101,7 +1101,7 @@
     .about-img-frame { aspect-ratio: 1/1; }
     .about-badge { right: 0; bottom: 0; padding: 0.75rem 1rem; font-size: 0.55rem; }
     .about-body { font-size: 0.95rem; }
-    .about-skills { gap: 1rem; }
+    .about-skills { gap: 0.5rem; }
     .skill-pill { font-size: 0.58rem; padding: 0.3rem 0.75rem; }
 
     .projects-grid { grid-template-columns: 1fr; gap: 2px; }
@@ -1636,31 +1636,7 @@
     <p class="contact-sub reveal reveal-delay-2">
       Available for freelance projects, brand collaborations, and full-time opportunities.<br>Based in Cairo — working globally.
     </p>
-    <form class="contact-form reveal reveal-delay-3" onsubmit="handleSubmit(event)">
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Your Name</label>
-          <input type="text" class="form-input" placeholder="Full name" required>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Your Email</label>
-          <input type="email" class="form-input" placeholder="email@domain.com" required>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Project Type</label>
-        <input type="text" class="form-input" placeholder="Brand identity, UI/UX, social media...">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Message</label>
-        <textarea class="form-textarea" placeholder="Tell me about your project..."></textarea>
-      </div>
-      <div class="form-submit">
-        <span class="form-note" id="form-status">All messages are replied to within 24 hours.</span>
-        <button type="submit" class="btn-send">Send Message →</button>
-      </div>
-    </form>
-  </div>
+    
 </section>
 
 <!-- Footer -->
