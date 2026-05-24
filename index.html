@@ -501,6 +501,8 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 2px;
     background: var(--border);
+    opacity: 1;
+    visibility: visible;
   }
   .project-card {
     background: var(--surface);
@@ -1153,8 +1155,9 @@
     .cursor, .cursor-ring { display: none !important; }
     body { cursor: auto; }
     .project-card:active { transform: scale(0.98); }
-    .project-overlay { opacity: 1; }
-    .project-info-static { opacity: 0; pointer-events: none; }
+    .project-overlay { opacity: 0; }
+    .project-info-static { opacity: 1; }
+    .project-thumb { opacity: 0.7; }
     .btn-glass, .btn-primary, .btn-ghost, .btn-send { min-height: 48px; }
   }
 
@@ -1279,7 +1282,11 @@
     .about-skills { justify-content: center; }
 
     .projects-grid { grid-template-columns: 1fr; gap: 0.75rem; }
-    .project-card { min-height: 0; aspect-ratio: 4/3; }
+    .project-card {
+      min-height: 220px;
+      aspect-ratio: 4 / 3;
+      width: 100%;
+    }
     .project-info-static, .project-overlay { padding: 1.25rem; }
     .project-name { font-size: 1.15rem; }
     .project-bg { font-size: 3rem; }
@@ -1380,7 +1387,13 @@
   #about { border-top: 1px solid var(--border); }
   .projects-grid { background: transparent; gap: 1rem; }
   .project-card { background: var(--surface); }
-  .reveal { transform: translateY(24px); }
+  .reveal.visible { opacity: 1 !important; transform: translateY(0) !important; }
+  .projects-grid,
+  .projects-grid .project-card {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none;
+  }
 </style>
 </head>
 <body>
@@ -1699,7 +1712,7 @@
     </div>
     <h2 class="section-title reveal reveal-delay-1"> Real <em>Projects</em></h2>
   </div>
-  <div class="projects-grid reveal">
+  <div class="projects-grid">
 
     <!-- Project 1 — Featured -->
     <div class="project-card featured p1" onclick="openProjectDetail(1)">
@@ -3561,10 +3574,29 @@
   });
 
   const reveals = document.querySelectorAll('.reveal');
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.1 });
-  reveals.forEach(el => obs.observe(el));
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        revealObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0, rootMargin: '0px 0px -40px 0px' });
+
+  function revealInViewport() {
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    reveals.forEach(el => {
+      if (el.classList.contains('visible')) return;
+      const rect = el.getBoundingClientRect();
+      if (rect.top < vh - 40 && rect.bottom > 40) el.classList.add('visible');
+    });
+  }
+
+  reveals.forEach(el => revealObserver.observe(el));
+  revealInViewport();
+  window.addEventListener('load', revealInViewport);
+  window.addEventListener('resize', revealInViewport);
+  window.addEventListener('scroll', revealInViewport, { passive: true });
 
   function handleSubmit(e) {
     e.preventDefault();
