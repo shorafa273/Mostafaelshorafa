@@ -568,16 +568,23 @@
 
   .project-overlay {
     position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%);
-    display: flex; flex-direction: column; justify-content: flex-end;
-    padding: 2rem; opacity: 0;
+    background: rgba(0,0,0,0.78);
+    display: block;
+    opacity: 0;
     transition: opacity 0.4s ease;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .project-overlay > * {
+    opacity: 0 !important;
+    visibility: hidden !important;
   }
   .project-card:hover .project-overlay { opacity: 1; }
   .project-info-static {
     position: absolute; bottom: 0; left: 0; right: 0;
     padding: 2rem;
     background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+    z-index: 1;
   }
   .project-category {
     font-size: 0.6rem; 
@@ -1012,9 +1019,12 @@
     position: fixed;
     inset: 0;
     z-index: 1000;
-    background: var(--bg);
+    background:
+      radial-gradient(circle at top left, rgba(201,168,76,0.12), transparent 26%),
+      linear-gradient(135deg, rgba(7,7,7,0.98), rgba(14,14,14,0.98));
     overflow-y: auto;
     overflow-x: hidden;
+    color: var(--text);
   }
   .project-detail-page.active {
     display: block;
@@ -1026,130 +1036,170 @@
   }
   .project-detail-header {
     position: relative;
-    height: 60vh;
     overflow: hidden;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.02);
+    backdrop-filter: blur(18px);
   }
-  .project-detail-bg {
+  .project-detail-header::before {
+    content: '';
     position: absolute;
     inset: 0;
-    background-size: cover;
-    background-position: center;
-    z-index: 0;
-  }
-  .project-detail-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%);
+    background: linear-gradient(180deg, rgba(7,7,7,0.02), rgba(7,7,7,0.2));
     z-index: 1;
+  }
+  .project-detail-bg,
+  .project-detail-overlay {
+    display: none !important;
   }
   .project-detail-close {
     position: absolute;
-    top: 2rem;
-    left: 4rem;
-    z-index: 10;
-    background: transparent;
-    border: none;
-    font-size: 1.5rem;
+    top: 1.5rem;
+    left: 1.5rem;
+    z-index: 12;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 999px;
+    width: 44px;
+    height: 44px;
+    font-size: 1rem;
     color: var(--gold);
     cursor: pointer;
-    font-weight: 900;
-    transition: color 0.3s;
+    font-weight: 700;
+    transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+    backdrop-filter: blur(10px);
   }
-  .project-detail-close:hover { color: var(--neon); }
+  .project-detail-close:hover {
+    transform: rotate(90deg);
+    background: rgba(201,168,76,0.14);
+    border-color: rgba(201,168,76,0.35);
+  }
   .project-detail-content {
     position: relative;
     z-index: 2;
-    height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    padding: 4rem;
+    justify-content: flex-start;
+    padding: 3.75rem 4rem 4rem;
+    max-width: 980px;
+    margin: 0 auto;
   }
   .project-detail-title {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-size: clamp(2.4rem, 5vw, 4.2rem);
     font-weight: 900;
-    line-height: 1.1;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
     margin-bottom: 1rem;
+    text-shadow: none;
   }
   .project-detail-info {
     display: flex;
-    gap: 3rem;
-    font-size: 0.8rem;
+    flex-wrap: wrap;
+    gap: 1.25rem 1.75rem;
+    font-size: 0.82rem;
+    padding-top: 0.5rem;
   }
   .project-detail-info-item {
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
+    gap: 0.25rem;
+    min-width: 140px;
   }
   .project-detail-info-label {
     font-weight: 800;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--gold);
-    font-size: 0.65rem;
+    font-size: 0.62rem;
   }
   .project-detail-info-value {
     font-weight: 600;
-    color: var(--text-soft);
+    color: rgba(255,255,255,0.85);
   }
   .project-detail-body {
-    padding: 6rem 4rem;
-    max-width: 900px;
+    padding: 4rem 4rem 6rem;
+    max-width: 960px;
+    margin: 0 auto;
   }
   .project-detail-section {
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
+    padding: 1.75rem 1.75rem;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 22px;
+    background: rgba(255,255,255,0.03);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    backdrop-filter: blur(12px);
   }
   .project-detail-section-title {
     font-family: 'Playfair Display', serif;
-    font-size: 1.8rem;
-    font-weight: 900;
-    margin-bottom: 1.5rem;
+    font-size: 1.55rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
     color: var(--text);
   }
   .project-detail-section-text {
-    font-size: 0.95rem;
+    font-size: 0.98rem;
     font-weight: 600;
     line-height: 1.8;
     color: var(--text-soft);
   }
   .project-detail-gallery {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
-    margin: 2rem 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0 2.5rem;
+    align-items: start;
   }
   .project-detail-gallery img {
+    display: block;
     width: 100%;
+    max-width: 560px;
     height: auto;
-    border: 1px solid var(--border);
+    max-height: 520px;
+    object-fit: cover;
+    margin: 0 auto;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 18px;
+    background: rgba(255,255,255,0.03);
+    box-shadow: 0 18px 45px rgba(0,0,0,0.28);
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+  }
+  .project-detail-gallery img:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 24px 55px rgba(0,0,0,0.34);
   }
   .project-detail-cta {
     display: flex;
-    gap: 2rem;
-    margin-top: 3rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2.5rem;
   }
   .project-detail-btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.75rem;
-    padding: 1rem 2rem;
-    background: transparent;
-    border: 2px solid var(--gold);
+    padding: 0.95rem 1.5rem;
+    background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.22);
     color: var(--gold);
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     font-weight: 800;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     text-decoration: none;
     cursor: pointer;
+    border-radius: 999px;
     transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
   }
   .project-detail-btn:hover {
     background: var(--gold);
     color: var(--bg);
+    transform: translateY(-2px);
+    box-shadow: 0 16px 30px rgba(201,168,76,0.16);
   }
 
   @media (hover: none) and (pointer: coarse) {
@@ -3501,8 +3551,6 @@
 <div class="project-detail-page" id="project-29">
   <button class="project-detail-close" onclick="closeProjectDetail()">✕</button>
   <div class="project-detail-header">
-    <div class="project-detail-bg" style="background-image: url('COVER.png');"></div>
-    <div class="project-detail-overlay"></div>
     <div class="project-detail-content">
       <h1 class="project-detail-title">Gaming Gift Cards</h1>
       <div class="project-detail-info">
@@ -3997,6 +4045,68 @@
     ]
   };
 
+  function enhanceProjectCopy(projectPage) {
+    const titleEl = projectPage.querySelector('.project-detail-title');
+    const title = titleEl ? titleEl.textContent.trim() : 'This project';
+    const categoryEl = projectPage.querySelector('.project-detail-info-value');
+    const category = categoryEl ? categoryEl.textContent.trim() : 'Design';
+    const sections = Array.from(projectPage.querySelectorAll('.project-detail-section'));
+
+    if (sections[0]) {
+      const overviewTitle = sections[0].querySelector('.project-detail-section-title');
+      const overviewText = sections[0].querySelector('.project-detail-section-text');
+      if (overviewTitle) overviewTitle.textContent = 'Project Overview';
+      if (overviewText) {
+        const cleanTitle = title.replace(/—/g, ' ').replace(/-/g, ' ');
+        const isUi = /ui|ux|interface|mobile|menu|landing/i.test(category);
+        const isBrand = /brand|identity|coffee/i.test(category);
+        const isSocial = /social|marketing|campaign|posts|media/i.test(category);
+        const isWeb = /web|website/i.test(category);
+
+        let overviewCopy = `This ${cleanTitle.toLowerCase()} project is shaped around clarity, visual impact, and a polished experience that feels intentional from the first impression to the final interaction.`;
+        if (isUi) {
+          overviewCopy = `This ${cleanTitle.toLowerCase()} project focuses on creating a smooth, intuitive experience with strong hierarchy, thoughtful interaction design, and a clear visual direction.`;
+        } else if (isSocial || isBrand) {
+          overviewCopy = `This ${cleanTitle.toLowerCase()} project brings a strong concept into a refined visual language that feels memorable, flexible, and ready for real-world use.`;
+        } else if (isWeb) {
+          overviewCopy = `This ${cleanTitle.toLowerCase()} project balances structure, storytelling, and contemporary design to create a confident and engaging experience.`;
+        }
+
+        overviewText.innerHTML = overviewCopy;
+      }
+    }
+
+    if (sections[1]) {
+      const detailTitle = sections[1].querySelector('.project-detail-section-title');
+      const detailText = sections[1].querySelector('.project-detail-section-text');
+      if (detailTitle) {
+        const isUi = /ui|ux|interface|mobile|menu|landing/i.test(category);
+        const isBrand = /brand|identity|coffee/i.test(category);
+        const isSocial = /social|marketing|campaign|posts|media/i.test(category);
+        detailTitle.textContent = isUi ? 'Design Approach' : isBrand ? 'Identity Direction' : isSocial ? 'Creative Direction' : 'Creative Approach';
+      }
+      if (detailText) {
+        const isUi = /ui|ux|interface|mobile|menu|landing/i.test(category);
+        const isBrand = /brand|identity|coffee/i.test(category);
+        const isSocial = /social|marketing|campaign|posts|media/i.test(category);
+        const isWeb = /web|website/i.test(category);
+
+        let detailCopy = `The concept is developed with consistency, rhythm, and a strong sense of purpose so the final result feels cohesive and refined across every touchpoint.`;
+        if (isUi) {
+          detailCopy = `The experience is guided by usability, visual hierarchy, and careful interaction choices that make the interface feel elegant and effortless.`;
+        } else if (isBrand) {
+          detailCopy = `The visual identity is crafted to feel distinctive, confident, and scalable, giving the project a lasting character across applications.`;
+        } else if (isSocial) {
+          detailCopy = `The visuals are shaped for fast communication, strong recognition, and a clear presence that works beautifully across digital platforms.`;
+        } else if (isWeb) {
+          detailCopy = `The layout and presentation are refined to support readability, flow, and a smooth browsing experience from start to finish.`;
+        }
+
+        detailText.innerHTML = detailCopy;
+      }
+    }
+  }
+
   function buildProjectGallery(projectPage, projectNum) {
     const body = projectPage.querySelector('.project-detail-body');
     if (!body) return;
@@ -4063,6 +4173,7 @@
   function openProjectDetail(projectNum) {
     const projectPage = document.getElementById(`project-${projectNum}`);
     if (!projectPage) return;
+    enhanceProjectCopy(projectPage);
     buildProjectGallery(projectPage, projectNum);
     ensureProjectHighlights(projectPage);
     projectPage.classList.add('active');
